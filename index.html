@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEMELLI — Bon de commande Dolce Vita 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3D5F;
+    --gold: #C9A96E;
+    --cream: #F7F2EA;
+    --text: #1C1A18;
+    --muted: #6E6660;
+    --border: rgba(27,61,95,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FFFDF8;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* Header */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .tagline {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #E0C48C;
+    margin-top: 16px;
+  }
+
+  /* Conditions banner */
+  .conditions {
+    background: var(--cream);
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--navy);
+    border-bottom: 2px solid var(--gold);
+  }
+  .conditions strong { color: var(--navy); }
+
+  /* Container */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* Section titles */
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    font-weight: 500;
+    margin: 32px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gold);
+  }
+  h2:first-child { margin-top: 0; }
+
+  /* Product table */
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .product-table thead th {
+    background: var(--navy);
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .product-table thead th:first-child {
+    text-align: left;
+    padding-left: 16px;
+  }
+  .product-table tbody tr {
+    border-bottom: 1px solid #eee;
+  }
+  .product-table tbody tr:hover {
+    background: #FAFAFA;
+  }
+  .product-table tbody td {
+    padding: 12px 8px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .product-table tbody td:first-child {
+    text-align: left;
+    padding-left: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .price {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .qty-input {
+    width: 60px;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    -moz-appearance: textfield;
+  }
+  .qty-input::-webkit-outer-spin-button,
+  .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  .qty-input:focus {
+    outline: none;
+    border-color: var(--navy);
+    background: #FFFCF0;
+  }
+  .na {
+    color: #ccc;
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  /* Recap */
+  .recap {
+    background: var(--cream);
+    padding: 20px;
+    margin: 24px 0;
+    border-left: 4px solid var(--gold);
+  }
+  .recap-empty {
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+  }
+  .recap-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.9rem;
+  }
+  .recap-total {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 2px solid var(--navy);
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .recap-ship {
+    font-size: 0.85rem;
+    color: var(--navy);
+    padding: 8px 0;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+  .form-group label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: white;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+  }
+  .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background 0.2s;
+  }
+  .submit-btn:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Success */
+  .success {
+    display: none;
+    background: #E8F5E9;
+    border-left: 4px solid #4CAF50;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .success.show { display: block; }
+  .success h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--navy);
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .success p {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  /* Error */
+  .error {
+    display: none;
+    background: #FFEBEE;
+    border-left: 4px solid #C62828;
+    padding: 12px 16px;
+    margin: 12px 0;
+    color: #C62828;
+    font-size: 0.85rem;
+  }
+  .error.show { display: block; }
+
+  /* Footer */
+  footer {
+    background: var(--navy);
+    color: white;
+    padding: 24px;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.8;
+    margin-top: 32px;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .product-table thead th,
+    .product-table tbody td { padding: 8px 4px; font-size: 0.8rem; }
+    .qty-input { width: 48px; padding: 5px 2px; }
+    .price { font-size: 0.65rem; }
+    h1 { font-size: 1.6rem; }
+    .container { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tagline">GEMELLI · Nato a Roma</div>
+  <h1>Dolce Vita</h1>
+  <div class="subtitle">Bon de commande · Saison 2026</div>
+</header>
+
+<div class="conditions">
+  Minimum <strong>200 € HT</strong> · Franco de port <strong>390 € HT</strong> · Livraison <strong>3-7 jours</strong>
+</div>
+
+<div class="container">
+
+  <h2>Gelati — Crèmes glacées</h2>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Parfum</th>
+        <th>Colis 100ml (×12)</th>
+        <th>Colis 400ml (×8)</th>
+        <th>Bac 2,5L (unité)</th>
+      </tr>
+    </thead>
+    <tbody id="gelati-body"></tbody>
+  </table>
+
+  <h2>Sorbetti — Sorbets aux fruits</h2>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Parfum</th>
+        <th>Colis 100ml (×12)</th>
+        <th>Colis 400ml (×8)</th>
+        <th>Bac 2,5L (unité)</th>
+      </tr>
+    </thead>
+    <tbody id="sorbetti-body"></tbody>
+  </table>
+
+  <h2>Récapitulatif</h2>
+  <div class="recap" id="recap">
+    <div class="recap-empty">Sélectionnez des produits pour voir le récapitulatif.</div>
+  </div>
+
+  <h2>Vos coordonnées</h2>
+  <form id="orderForm">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Établissement *</label>
+        <input type="text" name="etablissement" required placeholder="Restaurant Le Soleil">
+      </div>
+      <div class="form-group">
+        <label>Contact *</label>
+        <input type="text" name="contact" required placeholder="Marie Dupont">
+      </div>
+      <div class="form-group">
+        <label>Téléphone *</label>
+        <input type="tel" name="telephone" required placeholder="06 12 34 56 78">
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" name="email" required placeholder="contact@etablissement.fr">
+      </div>
+      <div class="form-group full">
+        <label>Adresse de livraison *</label>
+        <input type="text" name="adresse" required placeholder="15 rue de la Paix, 75001 Paris">
+      </div>
+      <div class="form-group">
+        <label>Type d'établissement *</label>
+        <select name="type" required>
+          <option value="">Choisir...</option>
+          <option>Restaurant</option>
+          <option>Hôtel</option>
+          <option>Épicerie fine</option>
+          <option>Primeur</option>
+          <option>Coffee shop</option>
+          <option>Traiteur</option>
+          <option>Pizzeria</option>
+          <option>Boucherie</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Livraison souhaitée</label>
+        <input type="date" name="date_livraison">
+      </div>
+      <div class="form-group full">
+        <label>Commentaires</label>
+        <textarea name="commentaires" placeholder="Instructions de livraison, horaires..."></textarea>
+      </div>
+    </div>
+
+    <div class="error" id="error"></div>
+    <button type="submit" class="submit-btn" id="submitBtn">Envoyer ma commande</button>
+    <div class="success" id="success">
+      <h3>Grazie mille !</h3>
+      <p>Votre commande a bien été envoyée.<br>Notre équipe vous recontactera rapidement.</p>
+    </div>
+  </form>
+
+</div>
+
+<footer>
+  GEMELLI · 170b Impasse Nicolas Appert, 26780 MALATAVERNE<br>
+  <a href="tel:+33475927696">04 75 92 76 96</a> · <a href="mailto:contact@gemelli.fr">contact@gemelli.fr</a> · <a href="https://www.gemelli.fr" target="_blank">www.gemelli.fr</a>
+</footer>
+
+<script>
+var products = [
+  // Gelati
+  { id:'vaniglia',   cat:'g', name:'Vaniglia Madagascar',     p100:24.60, p400:39.60, pbac:19.95, has400:true },
+  { id:'caramello',  cat:'g', name:'Caramello al Burro Salato', p100:24.60, p400:39.60, pbac:19.95, has400:true },
+  { id:'nocciola',   cat:'g', name:'Nocciola del Piemonte',   p100:24.60, p400:39.60, pbac:19.95, has400:true },
+  { id:'pistacchio', cat:'g', name:'Pistacchio di Bronte',    p100:27.48, p400:47.60, pbac:23.95, has400:true },
+  { id:'gianduja',   cat:'g', name:'Gianduja',                p100:24.60, p400:null,  pbac:21.95, has400:false },
+  { id:'caffe',      cat:'g', name:'Caffè Napoletano',        p100:24.60, p400:null,  pbac:19.95, has400:false },
+  // Sorbetti
+  { id:'fragola',    cat:'s', name:'Fragola',                 p100:24.60, p400:39.60, pbac:20.95, has400:true },
+  { id:'mandarino',  cat:'s', name:'Mandarino di Sicilia',    p100:24.60, p400:null,  pbac:21.95, has400:false },
+  { id:'mango',      cat:'s', name:'Mango Alphonso',          p100:27.48, p400:null,  pbac:22.95, has400:false },
+  { id:'limone',     cat:'s', name:'Limone di Sicilia',       p100:24.60, p400:39.60, pbac:19.95, has400:true },
+  { id:'lampone',    cat:'s', name:'Lampone',                 p100:27.48, p400:null,  pbac:23.95, has400:false },
+  { id:'cioccolato', cat:'s', name:'Cioccolato Fondante',     p100:25.20, p400:39.60, pbac:22.95, has400:true }
+];
+
+var qtys = {};
+
+function fmt(n) {
+  return n.toFixed(2).replace('.', ',') + ' €';
+}
+
+function getQty(id, field) {
+  if (!qtys[id]) qtys[id] = { q100:0, q400:0, qbac:0 };
+  return qtys[id][field] || 0;
+}
+
+function setQty(id, field, val) {
+  if (!qtys[id]) qtys[id] = { q100:0, q400:0, qbac:0 };
+  qtys[id][field] = Math.max(0, parseInt(val) || 0);
+  update();
+}
+
+function renderProducts() {
+  var gBody = document.getElementById('gelati-body');
+  var sBody = document.getElementById('sorbetti-body');
+  gBody.innerHTML = '';
+  sBody.innerHTML = '';
+
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    var tr = document.createElement('tr');
+
+    var cell100 = '<span class="price">' + fmt(p.p100) + '</span>' +
+      '<input type="number" min="0" value="0" class="qty-input" data-id="' + p.id + '" data-field="q100">';
+
+    var cell400 = p.has400
+      ? '<span class="price">' + fmt(p.p400) + '</span>' +
+        '<input type="number" min="0" value="0" class="qty-input" data-id="' + p.id + '" data-field="q400">'
+      : '<span class="na">—</span>';
+
+    var cellBac = '<span class="price">' + fmt(p.pbac) + '</span>' +
+      '<input type="number" min="0" value="0" class="qty-input" data-id="' + p.id + '" data-field="qbac">';
+
+    tr.innerHTML = '<td>' + p.name + '</td>' +
+                   '<td>' + cell100 + '</td>' +
+                   '<td>' + cell400 + '</td>' +
+                   '<td>' + cellBac + '</td>';
+
+    if (p.cat === 'g') gBody.appendChild(tr);
+    else sBody.appendChild(tr);
+  }
+
+  // Attach event listeners
+  var inputs = document.querySelectorAll('.qty-input');
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].addEventListener('input', function(e) {
+      setQty(e.target.dataset.id, e.target.dataset.field, e.target.value);
+    });
+  }
+}
+
+function calcTotal() {
+  var total = 0;
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    total += getQty(p.id, 'q100') * p.p100;
+    if (p.has400) total += getQty(p.id, 'q400') * p.p400;
+    total += getQty(p.id, 'qbac') * p.pbac;
+  }
+  return Math.round(total * 100) / 100;
+}
+
+function calcShipping(total) {
+  if (total === 0) return 0;
+  if (total < 291) return 25;
+  if (total < 390) return 15;
+  return 0;
+}
+
+function getOrderLines() {
+  var lines = [];
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    var q100 = getQty(p.id, 'q100');
+    var q400 = getQty(p.id, 'q400');
+    var qbac = getQty(p.id, 'qbac');
+    if (q100 > 0) lines.push({ name: p.name, fmt: '100ml x12', qty: q100, amt: q100 * p.p100 });
+    if (q400 > 0 && p.has400) lines.push({ name: p.name, fmt: '400ml x8', qty: q400, amt: q400 * p.p400 });
+    if (qbac > 0) lines.push({ name: p.name, fmt: 'bac 2,5L', qty: qbac, amt: qbac * p.pbac });
+  }
+  return lines;
+}
+
+function update() {
+  var total = calcTotal();
+  var ship = calcShipping(total);
+  var grand = total + ship;
+  var lines = getOrderLines();
+  var recap = document.getElementById('recap');
+
+  if (lines.length === 0) {
+    recap.innerHTML = '<div class="recap-empty">Sélectionnez des produits pour voir le récapitulatif.</div>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < lines.length; i++) {
+    html += '<div class="recap-line">' +
+            '<span>' + lines[i].name + ' · ' + lines[i].qty + ' × ' + lines[i].fmt + '</span>' +
+            '<span>' + fmt(lines[i].amt) + '</span></div>';
+  }
+  html += '<div class="recap-ship"><span>Sous-total HT</span><span>' + fmt(total) + '</span></div>';
+  html += '<div class="recap-ship"><span>Frais de port HT</span><span>' + (ship === 0 ? 'Offert ✓' : fmt(ship)) + '</span></div>';
+  html += '<div class="recap-total"><span>TOTAL HT</span><span>' + fmt(grand) + '</span></div>';
+
+  if (total > 0 && total < 390) {
+    var remaining = 390 - total;
+    html += '<div style="font-size:0.8rem;color:#C9A96E;margin-top:10px;text-align:center;">' +
+            'Plus que ' + fmt(remaining) + ' pour le franco de port ✨</div>';
+  }
+
+  recap.innerHTML = html;
+}
+
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var errorEl = document.getElementById('error');
+  var successEl = document.getElementById('success');
+  errorEl.classList.remove('show');
+
+  var total = calcTotal();
+  if (total === 0) {
+    errorEl.textContent = 'Veuillez sélectionner au moins un produit.';
+    errorEl.classList.add('show');
+    return;
+  }
+  if (total < 200) {
+    errorEl.textContent = 'Minimum de commande : 200 € HT. Votre total : ' + fmt(total);
+    errorEl.classList.add('show');
+    return;
+  }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours...';
+
+  var formData = new FormData(e.target);
+  var fields = {};
+  formData.forEach(function(v, k) { fields[k] = v; });
+
+  var ship = calcShipping(total);
+  var grand = total + ship;
+  var lines = getOrderLines();
+  var detail = '';
+  for (var i = 0; i < lines.length; i++) {
+    detail += '- ' + lines[i].name + ' : ' + lines[i].qty + ' x ' + lines[i].fmt + ' = ' + fmt(lines[i].amt) + '\n';
+  }
+
+  var ref = 'GEM-' + new Date().getFullYear() + '-' + Math.floor(Math.random() * 9000 + 1000);
+
+  var fd = new FormData();
+  fd.append('access_key', '2b5f9b23-538c-4508-abff-302cd764631a');
+  fd.append('subject', 'GEMELLI - Commande ' + ref + ' - ' + fields.etablissement);
+  fd.append('from_name', 'Bon de commande Gemelli');
+  fd.append('replyto', fields.email);
+  fd.append('Reference', ref);
+  fd.append('Etablissement', fields.etablissement);
+  fd.append('Contact', fields.contact);
+  fd.append('Telephone', fields.telephone);
+  fd.append('Email client', fields.email);
+  fd.append('Adresse', fields.adresse);
+  fd.append('Type', fields.type);
+  fd.append('Date livraison', fields.date_livraison || 'Non precisee');
+  fd.append('Commande detail', detail);
+  fd.append('Sous-total HT', fmt(total));
+  fd.append('Frais de port HT', ship === 0 ? 'Offert (franco)' : fmt(ship));
+  fd.append('TOTAL HT', fmt(grand));
+  fd.append('Commentaires', fields.commentaires || '-');
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: fd
+  })
+  .then(function(response) { return response.json(); })
+  .then(function(data) {
+    if (data.success) {
+      successEl.classList.add('show');
+      btn.style.display = 'none';
+      successEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      errorEl.textContent = 'Erreur lors de l\u0027envoi. Merci de reessayer ou de nous contacter.';
+      errorEl.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Envoyer ma commande';
+    }
+  })
+  .catch(function() {
+    errorEl.textContent = 'Erreur de connexion. Verifiez votre internet et reessayez.';
+    errorEl.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Envoyer ma commande';
+  });
+});
+
+renderProducts();
+update();
+</script>
+
+</body>
+</html>
